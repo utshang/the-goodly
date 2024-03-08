@@ -17,6 +17,6 @@ export default async (city, filters) => {
       statusMessage: "unable to fetch cars",
     });
   }
-
+  console.log(data);
   return { data, pending, refresh };
 };
