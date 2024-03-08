@@ -1,0 +1,76 @@
+header {
+  padding: 0 20px;
+  transition: background-color 0.3s;
+}
+
+.btn-logo {
+  background-color: transparent;
+  border: none;
+  &:hover {
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.btn-search {
+  background-color: transparent;
+  border: none;
+  &:hover {
+    background-color: transparent;
+    border: none;
+  }
+
+  svg {
+    color: #000;
+  }
+}
+
+.btn-searchInput {
+  border: 0;
+  border-radius: 100px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.navbar-searchform {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  transition: width 0.3s ease;
+
+  .form-control {
+    width: 0;
+    transition: width 0.3s ease;
+
+    input {
+      width: 0;
+      padding: 0;
+      transition: width 0.3s ease;
+    }
+  }
+
+  a {
+    visibility: hidden;
+  }
+
+  &.is-active {
+    display: flex;
+    width: 100%;
+
+    .form-control {
+      width: 100%;
+      input {
+        width: 100%;
+        padding: 0 20px;
+      }
+    }
+
+    a {
+      visibility: visible;
+    }
+  }
+}
