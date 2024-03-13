@@ -1,5 +1,4 @@
 <script setup>
-// const { cars } = useCars();
 const props = defineProps({
   cars: Array,
 });
@@ -18,7 +17,7 @@ const handleFavorite = (id) => {
 </script>
 
 <template>
-  <ul class="productList grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+  <ul class="productList grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
     <ClientOnly>
       <ProductCard
         v-for="car in cars"
