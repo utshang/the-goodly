@@ -61,21 +61,15 @@
 // const { id } = useRoute().params;
 // const productUrl = "https://fakestoreapi.com/products/" + id;
 // const { data: product } = await useFetch(productUrl);
-const { cars } = useCars();
+// const { cars } = useCars();
 const route = useRoute();
+const { data: car } = await useFetchCar(route.params.id);
 
-const car = computed(() => {
-  return cars.find((c) => {
-    return c.id === parseInt(route.params.id);
-  });
-});
-
-if (!car.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: `Product with ID of ${route.params.id} doesn't exist, please try again!`,
-  });
-}
+// const car = computed(() => {
+//   return cars.find((c) => {
+//     return c.id === parseInt(route.params.id);
+//   });
+// });
 
 definePageMeta({
   layout: "custom",
