@@ -25,12 +25,13 @@ model Car {
   miles         Int
   price         Int
   image         String
-  feature       String[]
-  description   String
+  features      String[]
   city          String
   model         String
   make          String
   listerId      String //他是一個foreign key，建立這一台車的資訊的人 為什麼他是字串不是數字，可以用useSupabaseUser()取得user id，會是一個字串
+  description   String
+  year          Int
   messages      Message[]
 }
 
