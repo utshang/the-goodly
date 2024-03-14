@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//建立資料表需要使用model，接著為表命名，範例：建了一個叫做 Car 的資料表
+//加入欄位，範例：加入了一個欄位叫做 id，型別為intger，@ 為 unique constraint
+//在SQL中，唯一鍵具有分配給它們的UNIQUE約束，以防止重複。
+//給他一個 default value，並且是 autoincrement，意思是最後一個加進去的物件的 id 是1，下一個被加進去的物件的 id 就會是2，會自動加1，替我們減少一點重複的工作
+//每個 Car 都會有不同的 messages
+model Car {
+  id            Int         @id @default(autoincrement())
+  name          String
+  seats         Int
+  miles         Int
+  price         Int
+  image         String
+  feature       String[]
+  description   String
+  city          String
+  model         String
+  make          String
+  listerId      String //他是一個foreign key，建立這一台車的資訊的人 為什麼他是字串不是數字，可以用useSupabaseUser()取得user id，會是一個字串
+  messages      Message[]
+}
+
+// listing 本身是一個 Car，用 @relation 給他一個關係，listingId is going to refer to the id inside of the Car model
+model Message {
+  id            Int         @id @default(autoincrement())
+  name          String
+  email         String
+  phone         String
+  message       String
+  listingId     Int    //他是一個foreign key，refer to Car 的 id
+  listing       Car         @relation(fields: [listingId], references: [id]) 
+}

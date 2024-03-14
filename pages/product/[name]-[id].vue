@@ -64,6 +64,8 @@
 // const { cars } = useCars();
 const route = useRoute();
 const { data: car } = await useFetchCar(route.params.id);
+const user = useSupabaseUser();
+// console.log(user._object.$ssupabase_user.id);
 
 // const car = computed(() => {
 //   return cars.find((c) => {

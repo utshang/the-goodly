@@ -6,7 +6,6 @@
 <script setup>
 //需要塞入 city 或是任何 query
 const route = useRoute();
-// 以下方式無法成功取得資料
 const { data: filteredCars, refresh } = await useFetchCars(route.params.city, {
   minPrice: route.query.minPrice,
   maxPrice: route.query.maxPrice,
