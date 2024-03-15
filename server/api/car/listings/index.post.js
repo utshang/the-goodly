@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   // Validate the data
-  const { value, error } = await schema.validate(body);
+  const { error } = await schema.validate(body);
 
   if (error) {
     throw createError({
