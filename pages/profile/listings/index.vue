@@ -24,5 +24,6 @@ definePageMeta({
   middleware: ["auth"],
 });
 
-const { listings } = useListings();
+const user = useSupabaseUser();
+const { data: listings } = useFetch(`/api/car/listings/user/${user.value.id}`);
 </script>
