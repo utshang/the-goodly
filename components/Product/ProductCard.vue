@@ -5,13 +5,17 @@
         :src="favored ? heartFilled : heartOutline"
         class="w-10 h-10 z-20 absolute bottom-4 right-4 cursor-pointer"
         alt=""
-        @click="emit('favor', car.id)"
+        @click="emits('favor', car.id)"
       />
       <NuxtLink
         :to="`/product/${car.name}-${car.id}`"
         class="card h-full bg-base-100 shadow-xl"
       >
-        <NuxtImg :src="car.url" alt="prdouct" class="p-8 h-60 object-contain" />
+        <NuxtImg
+          :src="car.image"
+          alt="prdouct"
+          class="p-8 h-60 object-contain"
+        />
         <div class="card-body relative">
           <span class="badge border-0 absolute top-1">HOT</span>
           <h2 class="card-title text-base">
@@ -33,5 +37,5 @@ const props = defineProps({
   favored: Boolean,
 });
 
-const emit = defineEmits(["favor"]);
+const emits = defineEmits(["favor"]);
 </script>
