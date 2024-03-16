@@ -25,6 +25,16 @@
         @change-input="onChangeInput"
       />
       <AdImage @change-input="onChangeInput" />
+      <div>
+        <button
+          @click="handleSubmit"
+          :disabled="isButtonDisabled"
+          class="btn btn-primary mt-3"
+        >
+          Submit
+        </button>
+      </div>
+      <div v-if="errorMes" class="text-red-400">{{ errorMes }}</div>
     </div>
   </div>
 </template>
@@ -36,6 +46,8 @@ definePageMeta({
 });
 
 const { makes } = useCars();
+const user = useSupabaseUser();
+const errorMes = ref("");
 
 const info = useState("adInfo", () => {
   return {
@@ -48,7 +60,7 @@ const info = useState("adInfo", () => {
     seats: "",
     features: "",
     description: "",
-    image: null,
+    image: "image111",
   };
 });
 
@@ -71,27 +83,65 @@ const inputs = [
   },
   {
     id: 3,
+    title: "Price *",
+    name: "price",
+    placeholder: "39000",
+  },
+  {
+    id: 4,
     title: "Miles *",
     name: "miles",
     placeholder: "10000",
   },
   {
-    id: 4,
+    id: 5,
     title: "City *",
     name: "city",
     placeholder: "Austin",
   },
   {
-    id: 5,
+    id: 6,
     title: "Number of Seats *",
     name: "seats",
     placeholder: "5",
   },
   {
-    id: 6,
+    id: 7,
     title: "Features *",
     name: "features",
     placeholder: "Leather Interior, No Accidents",
   },
 ];
+
+const handleSubmit = async () => {
+  const body = {
+    ...info.value,
+    city: info.value.city.toLowerCase(),
+    features: info.value.features.split("/ "),
+    seats: parseInt(info.value.seats),
+    price: parseInt(info.value.price),
+    miles: parseInt(info.value.miles),
+    year: parseInt(info.value.year),
+    name: `${info.value.make} ${info.value.model}`,
+    listerId: user.value.id,
+    image: "image111",
+  };
+
+  try {
+    const response = await $fetch("/api/car/listings", {
+      method: "post",
+      body,
+    });
+    info.value = "";
+    navigateTo("/profile/listings");
+  } catch (error) {
+    errorMes.value = error.statusMessage;
+  }
+};
+const isButtonDisabled = computed(() => {
+  for (let key in info.value) {
+    if (!info.value[key]) return true;
+  }
+  return false;
+});
 </script>
