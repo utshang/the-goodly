@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   };
 
   if (make) {
-    filters.make = make.toLowerCase();
+    filters.make = make;
   }
 
   if (minPrice || maxPrice) {
