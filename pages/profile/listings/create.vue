@@ -125,8 +125,6 @@ const handleSubmit = async () => {
     return (errorMsg.value = "Cannot upload image.");
   }
 
-  console.log(data);
-
   const body = {
     ...info.value,
     city: info.value.city.toLowerCase(),

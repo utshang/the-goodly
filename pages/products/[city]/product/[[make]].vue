@@ -19,7 +19,4 @@ watch(
     window.location.reload(true);
   }
 );
-
-console.log(route.params);
-console.log(route.query);
 </script>
