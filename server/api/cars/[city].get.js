@@ -1,17 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const { city } = event.context.params;
   const { make, minPrice, maxPrice } = getQuery(event);
 
   const filters = {
     city: city.toLowerCase(),
   };
-
-  // if (city === "city") {
-  //   return cars;
-  // }
 
   if (make) {
     filters.make = make.toLowerCase();
@@ -29,7 +25,15 @@ export default defineEventHandler((event) => {
     filters.price.lte = parseInt(maxPrice);
   }
 
-  return prisma.car.findMany({
-    where: filters,
-  });
+  let car;
+
+  if (city === "city") {
+    car = await prisma.car.findMany();
+  } else {
+    car = await prisma.car.findMany({
+      where: filters,
+    });
+  }
+
+  return car;
 });
