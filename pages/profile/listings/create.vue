@@ -47,6 +47,7 @@ definePageMeta({
 
 const { makes } = useCars();
 const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
 const info = useState("adInfo", () => {
   return {
@@ -59,7 +60,7 @@ const info = useState("adInfo", () => {
     seats: "",
     features: "",
     description: "",
-    image: "image111",
+    image: null,
   };
 });
 
@@ -114,6 +115,18 @@ const inputs = [
 
 const errorMsg = ref("");
 const handleSubmit = async () => {
+  //隨機給圖片一個名稱
+  const fileName = Math.floor(Math.random() * 100000000000000);
+  // 把圖片存到一個叫做 images 的 storage，用 upload 的方式存，info.value.image 為圖片的本身
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload("public/" + fileName, info.value.image);
+  if (error) {
+    return (errorMsg.value = "Cannot upload image.");
+  }
+
+  console.log(data);
+
   const body = {
     ...info.value,
     city: info.value.city.toLowerCase(),
@@ -124,7 +137,7 @@ const handleSubmit = async () => {
     year: parseInt(info.value.year),
     name: `${info.value.make} ${info.value.model}`,
     listerId: user.value.id,
-    image: "image111",
+    image: data.path, //url path
   };
 
   try {
@@ -142,11 +155,13 @@ const handleSubmit = async () => {
       seats: "",
       features: "",
       description: "",
-      image: "",
+      image: null,
     };
     navigateTo("/profile/listings");
   } catch (error) {
     errorMsg.value = error.statusMessage;
+    // 如果 listing 沒有 create 成功，不儲存圖片
+    await supabase.storage.from("images").remove(data.path);
   }
 };
 const isButtonDisabled = computed(() => {

@@ -12,7 +12,7 @@
         class="card h-full bg-base-100 shadow-xl"
       >
         <NuxtImg
-          :src="car.image"
+          :src="`${config.public.supabase.url}/storage/v1/object/public/images/${car.image}`"
           alt="prdouct"
           class="p-8 h-60 object-contain"
         />
@@ -38,4 +38,5 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["favor"]);
+const config = useRuntimeConfig();
 </script>
