@@ -34,7 +34,7 @@
           Submit
         </button>
       </div>
-      <div v-if="errorMes" class="text-red-400">{{ errorMes }}</div>
+      <div v-if="errorMsg" class="text-red-400">{{ errorMsg }}</div>
     </div>
   </div>
 </template>
@@ -47,7 +47,6 @@ definePageMeta({
 
 const { makes } = useCars();
 const user = useSupabaseUser();
-const errorMes = ref("");
 
 const info = useState("adInfo", () => {
   return {
@@ -113,6 +112,7 @@ const inputs = [
   },
 ];
 
+const errorMsg = ref("");
 const handleSubmit = async () => {
   const body = {
     ...info.value,
@@ -132,10 +132,21 @@ const handleSubmit = async () => {
       method: "post",
       body,
     });
-    info.value = "";
+    info.value = {
+      make: "",
+      model: "",
+      year: "",
+      miles: "",
+      price: "",
+      city: "",
+      seats: "",
+      features: "",
+      description: "",
+      image: "",
+    };
     navigateTo("/profile/listings");
   } catch (error) {
-    errorMes.value = error.statusMessage;
+    errorMsg.value = error.statusMessage;
   }
 };
 const isButtonDisabled = computed(() => {
