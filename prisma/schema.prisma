@@ -43,5 +43,5 @@ model Message {
   phone         String
   message       String
   listingId     Int    //他是一個foreign key，refer to Car 的 id
-  listing       Car         @relation(fields: [listingId], references: [id]) 
+  listing       Car         @relation(fields: [listingId], references: [id], onDelete: Cascade) //onDelete: Cascade 當某個 Car 被刪除後，該 Car 底下的 Message 也會被刪除
 }
